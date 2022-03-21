@@ -8,6 +8,8 @@ import br.com.leonardo.forum.mapper.TopicoFormMapper
 import br.com.leonardo.forum.mapper.TopicoViewMapper
 import br.com.leonardo.forum.model.Topico
 import br.com.leonardo.forum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
@@ -20,10 +22,15 @@ class TopicoService(
     ) {
 
 
-    fun listar(): List<TopicoView> {
-        return repository.findAll().stream().map{
-                t -> topicoViewMapper.map(t)
-        }.collect(Collectors.toList())
+    fun listar(nomeCurso: String?, paginacao:Pageable): Page<TopicoView> {
+        var topicos = if(nomeCurso == null) {
+            repository.findAll(paginacao)
+        } else {
+            repository.findByCursoNome(nomeCurso, paginacao)
+        }
+        return topicos.map{
+            t -> topicoViewMapper.map(t)
+        }
     }
 
 
