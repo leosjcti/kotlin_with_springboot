@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/forum
+    username: ${DB_USER:root}
+    password: ${DB_PASS:admserver}
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
